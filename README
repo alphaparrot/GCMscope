@@ -1,0 +1,8 @@
+Contains 3 routines: makexyz, xyz2rgb, and spec2rgb. The latter is a wrapper for the first two.
+You can pass an arbitrary spectrum (specify what the wavelengths are) with wavelengths in either
+nanometers or meters (it'll figure it out), and it will convolve the spectrum by the CIE
+color-matching functions to first produce the xyY color coordinates, and then can convert those
+to rgb coordinates for outputting to a display. The color-matching functions are described
+discretely in cmf.csv (drop in your own if you want) and are linearly interpolated to the 
+wavelengths of the input spectrum. You can also drop in your own xyz-rgb conversion matrix; it's
+described in the python source.

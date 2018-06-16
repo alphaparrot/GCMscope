@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import netCDF4 as nc
+import os
 
 def orthographic(lon,lat,imap,l0=0,p0=0,ny=36,nx=36,interp='bilinear'):
     xymap = np.zeros((ny,nx,3))
@@ -75,12 +76,12 @@ def orthographic(lon,lat,imap,l0=0,p0=0,ny=36,nx=36,interp='bilinear'):
                     
     return xymap
 
-def getphase(phasecurve,nphase):
+def getphase(phasecurve,phases,nphase):
     ln = phasecurve.variables['lon'][:]
     lt = phasecurve.variables['lat'][:]
     color = phasecurve.variables['colors'][nphase,:,:,:]
     color /= 5.0*np.mean(color)
-    proj= orthographic(ln,lt,np.minimum(color,1.0),l0=0.0,nx=200,ny=200)
+    proj= orthographic(ln,lt,np.minimum(color,1.0),l0=180-phases[nphase],nx=200,ny=200)
     return proj
 
 if __name__=="__main__":
@@ -90,10 +91,10 @@ if __name__=="__main__":
     os.system("mkdir "+tag)
     phases = pc.variables['phase'][:]
     for p in range(0,len(phases)):
-        proj = getphase(pc,p)
+        proj = getphase(pc,phases,p)
         f,a=plt.subplots(figsize=(14,12))
         plt.imshow(proj,interpolation='gaussian',origin='lower')
         plt.xticks([])
         plt.yticks([])
-        plt.savefig(tag+"/"+tag+"%03d.png",bbox_inches='tight')
+        plt.savefig(tag+"/"+tag+"%03d.png"%p,bbox_inches='tight')
         plt.close('all')

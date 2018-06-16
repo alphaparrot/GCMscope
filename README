@@ -6,3 +6,10 @@ to rgb coordinates for outputting to a display. The color-matching functions are
 discretely in cmf.csv (drop in your own if you want) and are linearly interpolated to the 
 wavelengths of the input spectrum. You can also drop in your own xyz-rgb conversion matrix; it's
 described in the python source.
+
+orthoprojection.py is a simple routine for computing the orthographic projection of a 
+latitude-longitude grid where each cell is a color computed by colormatch. Together with
+colormatch.py, you can take a simulated reflected light spectrum for each grid cell in a GCM,
+compute its color, and then compute the orthographic projection to create a photo-realistic
+image of your GCM output. Note that you'll have to simulate the reflected light spectrum yourself
+with another package.
